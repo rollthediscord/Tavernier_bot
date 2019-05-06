@@ -1,10 +1,8 @@
-const DataBase = require('../Database/EngineDatabase');
 const Orders = require('./Orders');
 
 class Parser extends Orders{
     constructor() {
         super();
-        this.database = new DataBase();
         this.commandPrompt = ">";
         this.orders = {
             roll: this.roll,
