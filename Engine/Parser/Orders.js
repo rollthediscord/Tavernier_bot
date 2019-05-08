@@ -1,6 +1,7 @@
 const Dice = require('../../Entity/Dice/Dice');
 const Caracter = require('../../Entity/Caracter/Caracter');
 const Granity = require('../../Entity/Granity/Granity');
+const WhereWolf = require('../../Entity/Minigame/WereWolf/WereWolf');
 
 class Orders{
     constructor(){
@@ -13,6 +14,10 @@ class Orders{
         this.result = rollDice.diceOperator();
         console.log(this.result);
         message.reply(this.result.comment + ":\n" + this.result.result);
+    }
+
+    lg(bot, message) {
+
     }
 
     order() {

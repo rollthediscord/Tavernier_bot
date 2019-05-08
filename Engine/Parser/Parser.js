@@ -8,6 +8,7 @@ class Parser extends Orders{
             roll: this.roll,
             order: this.order,
             prompt: this.updateDefaultPrompt,
+            lg: this.lg,
         };
     }
 
@@ -22,12 +23,12 @@ class Parser extends Orders{
     parseCommand(message) {
         let commandOperands = message.content.substring(1, message.length).split(' ');
         let order = commandOperands[0];
-        this.executeCommand(order, commandOperands.splice(0, 1).join(' '), message);
+        this.executeCommand(order, commandOperands.splice(1, commandOperands.length - 1).join(' '), message);
     }
 
     receiveCommand(message) {
         console.log("BAD PROMPT");
-        if (message[0] !== this.commandPrompt) {
+        if (message.content[0] !== this.commandPrompt) {
             return ({
                 "result": null,
                 "error": {

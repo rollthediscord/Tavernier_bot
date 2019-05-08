@@ -274,24 +274,27 @@ class Dice {
 
     commandParsing() {
         let splitedCommand = this.string.split('|');
-        for(let i = 0; i < splitedCommand.length; i++)
-            splitedCommand[i] = splitedCommand[i].substring(1, -1);
+        console.log(splitedCommand);
+        for(let i = 1; i < splitedCommand.length; i++)
+            splitedCommand[i] = splitedCommand[i].substr(1, splitedCommand[i].length - 2);
+        console.log(splitedCommand);
         this.parsedString = splitedCommand[0];
-        if (splitedCommand.length > 1) {
-            if (splitedCommand[1][0] === '[')
-                this.successThreshold = parseFloat(splitedCommand[1].substring(1, -1));
-            else
-                this.comment = splitedCommand[1];
+        for (let i = 1 ; i < splitedCommand.length ; i++) {
+            if (splitedCommand[i][0] === '[') {
+                this.successThreshold = parseFloat(splitedCommand[i].substr(1, splitedCommand[i].length - 1));
+            } else {
+                this.comment = splitedCommand[i];
+            }
         }
-        if (splitedCommand.length > 2)
-            this.successThreshold = parseFloat(splitedCommand[1].substring(1, -1));
     }
 
     diceOperator() {
         let err = 0;
         this.commandParsing();
         // Revoir cette ligne => ne remplace que le premier espace
+        console.log(this.string);
 //        this.parsedString = this.string.replace(' ', '');
+        console.log(this.parsedString);
         if (!this.checkForOperationFormatting()) {
             return ({
                 "result": null,
