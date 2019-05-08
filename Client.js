@@ -21,7 +21,8 @@ class Client extends Config{
         });
 
         this.bot.on('message', message => {
-            this.commandParser.receiveCommand(message.content);
+            console.log(message.content);
+            this.commandParser.receiveCommand(message);
             // let sender = message.author;
             // try {
             //    sender.send("test");

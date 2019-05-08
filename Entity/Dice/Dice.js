@@ -1,8 +1,10 @@
-class Dice{
+class Dice {
     constructor(string) {
+        this.result = 0;
+        this.comment = "";
         this.string = string;
         this.parsedString = "";
-        this.result = 0;
+        this.successThreshold = 0.0;
     }
 
     rollTheDice(diceType) {
@@ -21,18 +23,18 @@ class Dice{
     calculation(firstMember, secondMember, operand) {
         switch (operand) {
             case '*':
-                return(parseFloat(firstMember) * parseFloat(secondMember));
+                return (parseFloat(firstMember) * parseFloat(secondMember));
             case '/':
-                return(parseFloat(firstMember) / parseFloat(secondMember));
+                return (parseFloat(firstMember) / parseFloat(secondMember));
             case '+':
-                return(parseFloat(firstMember) + parseFloat(secondMember));
+                return (parseFloat(firstMember) + parseFloat(secondMember));
             case '-':
-                return(parseFloat(firstMember) - parseFloat(secondMember));
+                return (parseFloat(firstMember) - parseFloat(secondMember));
             case '^':
-                return(parseFloat(firstMember) ** parseFloat(secondMember));
+                return (parseFloat(firstMember) ** parseFloat(secondMember));
             default:
                 console.log("WTF unhandled operand !");
-                return(-1);
+                return (-1);
         }
     }
 
@@ -70,7 +72,7 @@ class Dice{
             }
             stringIndex++;
         }
-        return(stringIndex);
+        return (stringIndex);
     }
 
     endingOfParenthesis(beginningIndex) {
@@ -119,7 +121,7 @@ class Dice{
         while (operation[index] !== '+' && operation[index] !== '-' && operation[index] !== '/' && operation[index] !== '*' && operation[index] !== 'd' && index > 0) {
             index--;
         }
-        beginning = (index === 0 ? 0 : index + 1);;
+        beginning = (index === 0 ? 0 : index + 1);
         index = theD + 1;
         while (operation[index] !== '+' && operation[index] !== '-' && operation[index] !== '/' && operation[index] !== '*' && operation[index] !== 'd' && index < operation.length) {
             index++;
@@ -134,7 +136,7 @@ class Dice{
     operateFirstFactorialOperation(operation) {
         let beginning, ending, factorialOperand, factorialResult, members;
         let index = 0;
-        if (!this.checkForDivideByZero()){
+        if (!this.checkForDivideByZero()) {
             return null;
         }
         console.log("starting to purge " + operation + " from factorial operation");
@@ -211,7 +213,7 @@ class Dice{
 
     addMultiplicationOperandOnParenthesis() {
         for (let i = 0; i < this.parsedString.length; i++) {
-            if (this.parsedString[i] === '(' && parseInt(this.parsedString[i-1]) + "" !== 'NaN') {
+            if (this.parsedString[i] === '(' && parseInt(this.parsedString[i - 1]) + "" !== 'NaN') {
                 this.parsedString = this.parsedString.substring(0, i)
                     + '*'
                     + this.parsedString.substring(i, this.parsedString.length);
@@ -229,7 +231,7 @@ class Dice{
                 return (true);
             }
         }
-        return(false);
+        return (false);
     }
 
     checkForOperationFormatting() {
@@ -243,7 +245,7 @@ class Dice{
                     || parseInt(this.parsedString[i + 1]) + "" === "NaN")
                 &&
                 (this.parsedString[i - 1] !== ')'
-                || this.parsedString[i + 1] !== '(')
+                    || this.parsedString[i + 1] !== '(')
             ) {
                 return false;
             } else if (parseInt(this.parsedString[i] + "" === "NaN")
@@ -269,10 +271,27 @@ class Dice{
         return true;
     }
 
+
+    commandParsing() {
+        let splitedCommand = this.string.split('|');
+        for(let i = 0; i < splitedCommand.length; i++)
+            splitedCommand[i] = splitedCommand[i].substring(1, -1);
+        this.parsedString = splitedCommand[0];
+        if (splitedCommand.length > 1) {
+            if (splitedCommand[1][0] === '[')
+                this.successThreshold = parseFloat(splitedCommand[1].substring(1, -1));
+            else
+                this.comment = splitedCommand[1];
+        }
+        if (splitedCommand.length > 2)
+            this.successThreshold = parseFloat(splitedCommand[1].substring(1, -1));
+    }
+
     diceOperator() {
         let err = 0;
+        this.commandParsing();
         // Revoir cette ligne => ne remplace que le premier espace
-        this.parsedString = this.string.replace(' ', '');
+//        this.parsedString = this.string.replace(' ', '');
         if (!this.checkForOperationFormatting()) {
             return ({
                 "result": null,
@@ -302,6 +321,8 @@ class Dice{
         this.result = parseFloat(this.parsedString);
         return ({
             "result": this.result,
+            "comment": this.comment,
+            "threshold": this.successThreshold,
             "error": {
                 "error": false,
                 "error_code": null,

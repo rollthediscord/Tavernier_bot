@@ -15,14 +15,14 @@ class Parser extends Orders{
         this.commandPrompt = (prompt === null ? ">" : prompt);
     }
 
-    executeCommand(command, parameters = null) {
-        this.orders[command](parameters);
+    executeCommand(command, parameters = null, message) {
+        this.orders[command](parameters, message);
     }
 
-    parseCommand(commandOperands) {
-        commandOperands = commandOperands.split(' ');
+    parseCommand(message) {
+        let commandOperands = message.content.substring(1, message.length).split(' ');
         let order = commandOperands[0];
-        this.executeCommand(order, commandOperands.splice(0, 1).join(' '));
+        this.executeCommand(order, commandOperands.splice(0, 1).join(' '), message);
     }
 
     receiveCommand(message) {
@@ -36,7 +36,7 @@ class Parser extends Orders{
                 }
             });
         }
-        this.parseCommand(message.substring(1, message.length))
+        this.parseCommand(message)
     }
 
 }

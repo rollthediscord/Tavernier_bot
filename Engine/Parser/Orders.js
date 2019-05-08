@@ -5,11 +5,14 @@ const Granity = require('../../Entity/Granity/Granity');
 class Orders{
     constructor(){
         console.log("successfully generated");
+        this.result = {};
     }
 
-    roll(diceOperation) {
+    roll(diceOperation, message) {
         let rollDice = new Dice(diceOperation);
         this.result = rollDice.diceOperator();
+        console.log(this.result);
+        message.reply(this.result.comment + ":\n" + this.result.result);
     }
 
     order() {
