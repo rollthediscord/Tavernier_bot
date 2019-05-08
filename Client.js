@@ -22,7 +22,7 @@ class Client extends Config{
 
         this.bot.on('message', message => {
             console.log(message.content);
-            this.commandParser.receiveCommand(message);
+            this.commandParser.receiveCommand(message ,this.bot);
             // let sender = message.author;
             // try {
             //    sender.send("test");

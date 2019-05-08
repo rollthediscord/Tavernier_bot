@@ -16,8 +16,8 @@ class Orders{
         message.reply(this.result.comment + ":\n" + this.result.result);
     }
 
-    lg(bot, message) {
-
+    lg(parameters, message, bot) {
+        let Wolf = new WhereWolf(bot);
     }
 
     order() {

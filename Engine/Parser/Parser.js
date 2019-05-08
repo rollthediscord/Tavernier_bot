@@ -16,17 +16,17 @@ class Parser extends Orders{
         this.commandPrompt = (prompt === null ? ">" : prompt);
     }
 
-    executeCommand(command, parameters = null, message) {
-        this.orders[command](parameters, message);
+    executeCommand(command, parameters = null, message, bot) {
+        this.orders[command](parameters, message, bot);
     }
 
-    parseCommand(message) {
+    parseCommand(message, bot) {
         let commandOperands = message.content.substring(1, message.length).split(' ');
         let order = commandOperands[0];
-        this.executeCommand(order, commandOperands.splice(1, commandOperands.length - 1).join(' '), message);
+        this.executeCommand(order, commandOperands.splice(1, commandOperands.length - 1).join(' '), message, bot);
     }
 
-    receiveCommand(message) {
+    receiveCommand(message, bot) {
         console.log("BAD PROMPT");
         if (message.content[0] !== this.commandPrompt) {
             return ({
@@ -37,7 +37,7 @@ class Parser extends Orders{
                 }
             });
         }
-        this.parseCommand(message)
+        this.parseCommand(message, bot)
     }
 
 }
